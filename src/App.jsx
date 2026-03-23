@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react"
+import SearchBar from "./components/SearchBar"
+import UserList from "./components/UserList"
 
 function App() {
   const [users, setUsers] = useState([])
@@ -31,23 +33,11 @@ function App() {
     <div style={styles.container}>
       <h1>CRM Dashboard</h1>
 
-      <input 
-        type="text"
-        placeholder="Cari User"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        style={styles.input}
-      />
+      <SearchBar cari={search} setCari={setSearch} />
 
       <p>Total Users: {filterUsers.length}</p>
 
-      {filterUsers.map((tampil) => (
-        <div key={tampil.id} style={styles.card}>
-          <h3>{tampil.name}</h3>
-          <p>{tampil.email}</p>
-          <p>{tampil.phone}</p>
-        </div>
-      ))}
+      <UserList tampil={filterUsers} />
     </div>
   )
 }
