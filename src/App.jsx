@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import SearchBar from "./components/SearchBar"
 import UserList from "./components/UserList"
+import {getUsers} from "./services/api"
 
 function App() {
   const [users, setUsers] = useState([])
@@ -9,13 +10,20 @@ function App() {
   const [search, setSearch] = useState("")
 
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then((res) => res.json())
-      .then((data) => {
-        setUsers(data)
-        setFilterUsers(data)
+    const fetchUsers = async () => {
+      try {
+        const tampil = await getUsers()
+        setUsers(tampil)
+        setFilterUsers(tampil)
         setLoading(false)
-      })
+      } catch (error) {
+        console.error("Error fetching users:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchUsers()
   }, [])
 
   useEffect(() => {
